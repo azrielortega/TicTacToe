@@ -28,7 +28,7 @@ public class Model {
 
     public void level2(){
         int move[] = bestMove();
-        grid[move[0]][move[1]].drawO();
+        //grid[move[0]][move[1]].drawO();
     }
 
     public int checkWinner(){
@@ -80,20 +80,24 @@ public class Model {
                     grid[i][j].drawO(); // make move
 
                     //compute value
-                    moveVal = minimax(0, true);
-
+                    moveVal = minimax(0, false);
                     grid[i][j].setInitial(); //undo the move bc ur just checking but not really setting
 
                     if (moveVal > bestVal){ // update bestVal
+                        bestVal = moveVal;
                         move[0] = i;
                         move[1] = j;
-                        bestVal = moveVal;
+
                     }
                 }
             }
         }
+        grid[move[0]][move[1]].drawO();
+        player1Turn = true;
         return move;
     }
+
+
 
     public int minimax(int depth, boolean isMaximizing){
         int score = checkWinner();
@@ -111,10 +115,10 @@ public class Model {
                 for (int j = 0; j < 3; j++) {
                     if(grid[i][j].getType().equalsIgnoreCase("blank")){
                         grid[i][j].drawO();
-                        bestScore = Math.max(bestScore, minimax(depth+1, false));
+                        int tempScore =  minimax(depth+1, false);
+                        bestScore = Math.max(bestScore, tempScore);
                         grid[i][j].setInitial(); //undo the move
                     }
-
                 }
             }
             return bestScore;
@@ -124,7 +128,8 @@ public class Model {
                 for (int j = 0; j < 3; j++) {
                     if(grid[i][j].getType().equalsIgnoreCase("blank")){
                         grid[i][j].drawX();
-                        bestScore = Math.min(bestScore, minimax(depth+1, true));
+                        int tempScore = minimax(depth+1, true);
+                        bestScore = Math.min(bestScore, tempScore);
                         grid[i][j].setInitial(); //undo
                     }
                 }

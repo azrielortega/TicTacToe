@@ -13,7 +13,7 @@ public class Controller {
 
     Model model = new Model();
 
-    int level = 0;
+    int level = 2;
     int ctr = 0;
     public void createGrid(){ // to create 3x3 grid
         int code = 0;
@@ -28,22 +28,24 @@ public class Controller {
             }
         }
         msg.setText("Your turn!");
+        System.out.println(level);
     }
     @FXML
     public void handleClick(MouseEvent me) {
         double posX = me.getX();
         double posY = me.getY();
-        level = 2;
         int row = (int) (posY/200);
         int col = (int) (posX/200);
 
         if (model.isPlayer1Turn() && model.checkWinner() == 0){
             Model.grid[row][col].drawX();
+
             if (model.checkWinner() == 1){
                 msg.setText("Player 1 wins");
             }
 
             model.setPlayer1Turn(false);
+
             ctr++;
 
             if (ctr < 8 && !model.player1Turn && model.checkWinner() == 0) {
@@ -54,7 +56,6 @@ public class Controller {
                     case 2:
                         System.out.println("minimax");
                         model.level2();
-
                         break;
                 }
 
@@ -66,6 +67,7 @@ public class Controller {
             }
         }
     }
+
     public static void wait(int ms) {
         try
         {
