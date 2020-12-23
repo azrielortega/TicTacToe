@@ -44,6 +44,10 @@ public class Tile extends StackPane {
         type = "X";
         text.setText("X");
     }
+    public void setInitial(){
+        type = "blank";
+        text.setText("");
+    }
     public void drawO(){
         type = "O";
         text.setText("O");

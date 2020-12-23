@@ -33,44 +33,38 @@ public class Controller {
     public void handleClick(MouseEvent me) {
         double posX = me.getX();
         double posY = me.getY();
-
+        level = 2;
         int row = (int) (posY/200);
         int col = (int) (posX/200);
 
-        if (model.isPlayer1Turn() && !model.checkWinner()){
+        if (model.isPlayer1Turn() && model.checkWinner() == 0){
             Model.grid[row][col].drawX();
-            if (model.checkWinner()){
+            if (model.checkWinner() == 1){
                 msg.setText("Player 1 wins");
             }
 
             model.setPlayer1Turn(false);
             ctr++;
 
-            if (ctr < 8 && !model.player1Turn && !model.checkWinner()) {
+            if (ctr < 8 && !model.player1Turn && model.checkWinner() == 0) {
                 switch (level){
                     case 0:
                         model.level0();
+                        break;
+                    case 2:
+                        System.out.println("minimax");
+                        model.level2();
+
                         break;
                 }
 
                 model.setPlayer1Turn(true);
                 ctr++;
-                if (model.checkWinner()){
+                if (model.checkWinner() == -1){
                     msg.setText("Player 2 wins");
                 }
             }
         }
-        /*
-        if (p1){
-            Model.grid[row][col].drawX();
-            p1 = false;
-        } else {
-            Model.grid[row][col].drawO();
-            p1 = true;
-        }
-        System.out.println(p1);
-        */
-
     }
     public static void wait(int ms) {
         try
