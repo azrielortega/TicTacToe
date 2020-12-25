@@ -3,6 +3,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Model {
     public static Tile grid[][] = new Tile[3][3];
     public boolean player1Turn = true;
+    public static  int gameCount = 0;
 
     public void level0(){
         int tileCode = 0;
@@ -12,12 +13,15 @@ public class Model {
 
         while (!found){
             tileCode = ThreadLocalRandom.current().nextInt(min, max + 1); // generate number from 1-8
-
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     if (grid[i][j].getCode() == tileCode){
                         if (grid[i][j].getType().equalsIgnoreCase("blank")){
-                            grid[i][j].drawO();
+                            if (gameCount%2 != 0){
+                                grid[i][j].drawO();
+                            } else {
+                                grid[i][j].drawX();
+                            }
                             found = true;
                         }
                     }
@@ -28,7 +32,7 @@ public class Model {
 
     public void level2(){
         int move[] = bestMove();
-        //grid[move[0]][move[1]].drawO();
+
     }
 
     public int checkWinner(){
@@ -71,13 +75,18 @@ public class Model {
         int[] move = new int[2];
         move[0] = -1; // row
         move[1] = -1;  // col
-
+        System.out.println(gameCount);
         // check each tile and evaluate minimax value for each.
         // return optimal value
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if(grid[i][j].getType().equalsIgnoreCase("blank")){ //check if empty tile
-                    grid[i][j].drawO(); // make move
+
+                    if(gameCount%2 != 0){
+                        grid[i][j].drawO(); // make move
+                    } else {
+                        grid[i][j].drawX();
+                    }
 
                     //compute value
                     moveVal = minimax(0, false);
@@ -92,7 +101,11 @@ public class Model {
                 }
             }
         }
-        grid[move[0]][move[1]].drawO();
+        if(gameCount%2 != 0){
+            grid[move[0]][move[1]].drawO(); // make move
+        } else {
+            grid[move[0]][move[1]].drawX();
+        }
         player1Turn = true;
         return move;
     }
@@ -114,7 +127,11 @@ public class Model {
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     if(grid[i][j].getType().equalsIgnoreCase("blank")){
-                        grid[i][j].drawO();
+                        if(gameCount%2 != 0){
+                            grid[i][j].drawO(); // make move
+                        } else {
+                            grid[i][j].drawX();
+                        }
                         int tempScore =  minimax(depth+1, false);
                         bestScore = Math.max(bestScore, tempScore);
                         grid[i][j].setInitial(); //undo the move
@@ -127,7 +144,11 @@ public class Model {
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     if(grid[i][j].getType().equalsIgnoreCase("blank")){
-                        grid[i][j].drawX();
+                        if(gameCount%2 != 0){
+                            grid[i][j].drawO(); // make move
+                        } else {
+                            grid[i][j].drawX();
+                        }
                         int tempScore = minimax(depth+1, true);
                         bestScore = Math.min(bestScore, tempScore);
                         grid[i][j].setInitial(); //undo

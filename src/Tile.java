@@ -3,6 +3,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public class Tile extends StackPane {
@@ -14,7 +15,7 @@ public class Tile extends StackPane {
     public Tile(){
         Rectangle tile = new Rectangle (200,200);
         tile.setFill(null);
-        tile.setStroke(Color.BLACK);
+        tile.setStroke(Color.WHITE);
         text.setFont(Font.font(72));
         setAlignment(Pos.CENTER);
         getChildren().addAll(tile, text);
@@ -43,6 +44,8 @@ public class Tile extends StackPane {
     public void drawX(){
         type = "X";
         text.setText("X");
+        text.setFill(Color.rgb(34,163,196));
+        text.setFont(Font.font("Trebuchet MS", FontWeight.BOLD, 80));
     }
     public void setInitial(){
         type = "blank";
@@ -51,5 +54,7 @@ public class Tile extends StackPane {
     public void drawO(){
         type = "O";
         text.setText("O");
+        text.setFont(Font.font("Trebuchet MS", FontWeight.BOLD, 80));
+        text.setFill(Color.rgb(252,85,139));
     }
 }

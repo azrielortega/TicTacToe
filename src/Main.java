@@ -12,13 +12,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("TicTacToeView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainMenuView.fxml"));
         Parent root = (Parent) loader.load();
         Controller controller = (Controller) loader.getController();
         controller.createGrid();
 
         primaryStage.setTitle("Tic Tac Toe");
-        primaryStage.setScene(new Scene(root, 620, 700));
+        primaryStage.setScene(new Scene(root, 608, 730));
         primaryStage.setResizable(false);
         primaryStage.show();
     }
