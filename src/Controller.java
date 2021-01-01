@@ -32,7 +32,7 @@ public class Controller {
 
     Model model = new Model();
 
-    int level;
+    private static int level = -1;
 
     int ctr = 0;
     public void createGrid(){ // to create 3x3 grid
@@ -65,7 +65,8 @@ public class Controller {
            else
                Model.grid[row][col].drawO();
 
-            if (model.checkWinner() == 1){
+           model.setPastMove(row, col);
+           if (model.checkWinner() == 1){
                 msg.setText("Player X wins");
             }
 
@@ -76,8 +77,18 @@ public class Controller {
             if (ctr < 8 && !model.player1Turn && model.checkWinner() == 0) {
                 switch (level){
                     case 0:
+                        System.out.println("random");
                         model.level0();
                         break;
+                    case 1:
+                        System.out.println("hardcoded");
+                        if(Model.gameCount % 2 == 0){
+                            model.level1XAi(ctr);
+                        }
+                        else
+                            model.level1OAI(ctr);
+                        break;
+
                     case 2:
                         System.out.println("minimax");
                         model.level2();
@@ -138,6 +149,20 @@ public class Controller {
 
             Model.gameCount++;
         } else if (e.getSource() == Level1){
+            level = 1;
+
+            stage = (Stage) Level1.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("TicTacToeView.fxml"));
+            root = (Parent) loader.load();
+            Controller controller = (Controller) loader.getController();
+            controller.createGrid();
+
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Tic Tac Toe");
+            stage.show();
+
+            Model.gameCount++;
 
         } else if (e.getSource() == Level2){
             level = 2;

@@ -57,4 +57,19 @@ public class Tile extends StackPane {
         text.setFont(Font.font("Trebuchet MS", FontWeight.BOLD, 80));
         text.setFill(Color.rgb(252,85,139));
     }
+
+    public void drawType(String t){
+        System.out.println(t);
+        switch (t){
+            case "O":
+                drawO();
+                break;
+            case "X":
+                drawX();
+                break;
+            case "blank":
+                setInitial();
+                break;
+        }
+    }
 }
