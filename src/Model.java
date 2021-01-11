@@ -14,8 +14,8 @@ public class Model {
     public static int configInt2 = -1;
     public static boolean end = false;
 
-    public int xScore = 0;
-    public int oScore = 0;
+    public static int xScore = 0;
+    public static int oScore = 0;
 
     public void level0(){
         int tileCode = 0;
@@ -1013,21 +1013,17 @@ public class Model {
 
         // check
         if (grid[0][0].getType().equalsIgnoreCase(grid[1][1].getType()) && grid[0][0].getType().equalsIgnoreCase(grid[2][2].getType()) && grid[0][0].getType().equalsIgnoreCase("X")){
-            xScore++;
             System.out.println(xScore);
             return 1;
         } else if (grid[0][0].getType().equalsIgnoreCase(grid[1][1].getType()) && grid[0][0].getType().equalsIgnoreCase(grid[2][2].getType()) && grid[0][0].getType().equalsIgnoreCase("O")){
-            oScore++;
             System.out.println(oScore);
             return -1;
         }
         // check /
         if(grid[2][0].getType().equalsIgnoreCase(grid[1][1].getType()) && grid[2][0].getType().equalsIgnoreCase(grid[0][2].getType()) && grid[2][0].getType().equalsIgnoreCase("X")){
-            xScore++;
             System.out.println(xScore);
             return 1;
         } else if(grid[2][0].getType().equalsIgnoreCase(grid[1][1].getType()) && grid[2][0].getType().equalsIgnoreCase(grid[0][2].getType()) && grid[2][0].getType().equalsIgnoreCase("O")){
-            oScore++;
             System.out.println(oScore);
             return -1;
         }

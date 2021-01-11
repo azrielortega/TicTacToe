@@ -74,13 +74,14 @@ public class Controller {
 
            if (model.checkWinner() == 1){
              //   xScore.setText(String.valueOf(Model.xScore));
-                msg.setText("Player X wins");
+               Model.xScore ++;
+               msg.setText("Player X wins");
            }
            if (model.checkWinner() == -1){
-                msg.setText("Player O wins");
+               Model.oScore ++;
+               msg.setText("Player O wins");
              //   oScore.setText(String.valueOf(Model.oScore));
             }
-
             model.setPlayer1Turn(false);
 
             ctr++;
@@ -108,6 +109,8 @@ public class Controller {
                 model.setPlayer1Turn(true);
                 ctr++;
             }
+            System.out.println("XSCORE - " + model.xScore);
+            System.out.println("OSCORE - " + model.oScore);
         }
 
         System.out.println("check winner: " + model.checkWinner());
@@ -197,6 +200,7 @@ public class Controller {
         } else if (e.getSource() == PlayAgain){
             //Model.oScore = 0;
             //Model.xScore = 0;
+            System.out.println("XSCORE - OSCORE : " + Model.xScore + ":" + Model.oScore);
             msg.setText("");
             Model.gameCount++;
             System.out.println(Model.gameCount);
