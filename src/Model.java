@@ -1,3 +1,4 @@
+import javax.lang.model.type.MirroredTypeException;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Model {
@@ -10,6 +11,7 @@ public class Model {
     public static char config = '.';
     public static char config1 = '.';
     public static int configInt1 = -1;
+    public static int configInt2 = -1;
     public static boolean end = false;
 
     public void level0(){
@@ -137,7 +139,7 @@ public class Model {
                 switch (pastMove){
                     case 'e'://DRAW, PLAYER TAKES CENTER, GET CORNER
                         grid[0][0].drawO();
-                        config = 'e';
+                        config = pastMove;
                         break;
                     case 'a' : case 'c': case 'g': case 'i'://DRAW OR POTENTIAL LOSS, PLAYER TAKES CORNER, GET CENTER
                         grid[1][1].drawO();
@@ -151,6 +153,35 @@ public class Model {
             case 3:
                 switch(config){
                     case 'e':
+                        if (grid[0][1].getType().equalsIgnoreCase("X")){// UP TILE
+                            configInt1 = 1;
+                            grid[2][1].drawO();
+                        }
+                        else if (grid[1][0].getType().equalsIgnoreCase("X")){ // LEFT TILE
+                            configInt1 = 2;
+                            grid[1][2].drawO();
+                        }
+                        else if (grid[1][2].getType().equalsIgnoreCase("X")){ //RIGHT TILE
+                            configInt1 = 3;
+                            grid[1][0].drawO();
+                        }
+                        else if (grid[2][1].getType().equalsIgnoreCase("X")){//DOWN TILE
+                            configInt1 = 4;
+                            grid[0][1].drawO();
+                        }
+                        else if (grid[0][2].getType().equalsIgnoreCase("X")){//TOP RIGHT
+                            configInt1 = 5;
+                            grid[2][0].drawO();
+                        }
+                        else if (grid[2][0].getType().equalsIgnoreCase("X")){//BOTTOM LEFT
+                            configInt1 = 6;
+                            grid[0][2].drawO();
+                        }
+                        else if (grid[2][2].getType().equalsIgnoreCase("X")){//BOTTOM RIGHT
+                            configInt1 = 7;
+                            grid[0][2].drawO();
+                        }
+
                         break;
                     case 'a': case 'c': case 'g': case 'i':
                         if (config == 'c'){
@@ -162,7 +193,6 @@ public class Model {
                         else if(config == 'g') {
                             rotateMatrix(1);
                         }
-
                         if (grid[0][1].getType().equalsIgnoreCase("X")){//UP TILE PLAYER MOVE
                             configInt1 = 1;
                             grid[0][2].drawO();
@@ -248,8 +278,83 @@ public class Model {
                 }
                 break;
             case 5:
-                switch (config){
-                    case 'a': case 'c': case 'g': case 'i':
+                switch (config) {
+                    case 'e':
+                        switch (configInt1) {
+                            case 2:
+                                mirrorHorizontally();
+                                rotateMatrix(3);
+                            case 1:
+                                System.out.println("CASE 1 2 EMTERED");
+                                if (grid[1][0].getType().equalsIgnoreCase("X")) {//LEFT TILE
+                                    configInt2 = 1;
+                                    grid[1][2].drawO();
+                                } else if (grid[1][2].getType().equalsIgnoreCase("X")) {//RIGHT TILE
+                                    configInt2 = 2;
+                                    grid[1][0].drawO();
+                                } else if (grid[0][2].getType().equalsIgnoreCase("X")) {//UPPER RIGHT CORNER
+                                    configInt2 = 3;
+                                    grid[2][0].drawO();
+                                } else if (grid[2][0].getType().equalsIgnoreCase(("X"))) {//BOTTOM LEFT CORNER
+                                    configInt2 = 4;
+                                    grid[0][2].drawO();
+                                } else if (grid[2][2].getType().equalsIgnoreCase("X")) {
+                                    configInt2 = 5;
+                                    grid[2][0].drawO();
+                                }
+                                if (configInt1 == 2) {
+                                    rotateMatrix(1);
+                                    mirrorHorizontally();
+                                }
+                                break;
+                            case 3:
+                                mirrorHorizontally();
+                                rotateMatrix(3);
+                            case 4:
+                                System.out.println("CASE 3 4 EMTERED");
+                                if (grid[0][2].getType().equalsIgnoreCase("blank")) {
+                                    grid[0][2].drawO();
+                                } else {
+                                    grid[2][0].drawO();
+                                }
+
+                                if (configInt1 == 3) {
+                                    rotateMatrix(1);
+                                    mirrorHorizontally();
+                                }
+                                System.out.println("CURRENT BOARD ______");
+                                printBoard();
+                                break;
+                            case 6:
+                                mirrorHorizontally();
+                                rotateMatrix(3);
+                            case 5:
+                                System.out.println("CASE 5 6 EMTERED");
+                                if (grid[1][0].getType().equalsIgnoreCase("blank")) {
+                                    grid[1][0].drawO();
+                                } else {
+                                    grid[1][2].drawO();
+                                }
+
+                                if (configInt1 == 6) {
+                                    rotateMatrix(1);
+                                    mirrorHorizontally();
+                                }
+                                break;
+                            case 7:
+                                if (grid[0][1].getType().equalsIgnoreCase("blank")) {
+                                    grid[0][1].drawO();
+                                } else {
+                                    grid[2][1].drawO();
+                                }
+                                break;
+                        }
+
+                        break;
+                    case 'a':
+                    case 'c':
+                    case 'g':
+                    case 'i':
                         if (config == 'c')
                             rotateMatrix(3);
                         else if (config == 'i')
@@ -257,17 +362,17 @@ public class Model {
                         else if (config == 'g')
                             rotateMatrix(1);
 
-                        switch(configInt1){
+                        switch (configInt1) {
                             case 4:
                                 mirrorHorizontally();
                                 rotateMatrix(3);
                             case 1:
-                                if(grid[2][0].getType().equalsIgnoreCase("blank"))
+                                if (grid[2][0].getType().equalsIgnoreCase("blank"))
                                     grid[2][0].drawO();
                                 else
                                     grid[1][0].drawO();
 
-                                if(configInt1 == 4){
+                                if (configInt1 == 4) {
                                     rotateMatrix(1);
                                     mirrorHorizontally();
                                 }
@@ -276,12 +381,12 @@ public class Model {
                                 mirrorHorizontally();
                                 rotateMatrix(3);
                             case 2:
-                                if(grid[0][2].getType().equalsIgnoreCase("blank"))
+                                if (grid[0][2].getType().equalsIgnoreCase("blank"))
                                     grid[0][2].drawO();
                                 else
                                     grid[0][1].drawO();
 
-                                if(configInt1 == 5){
+                                if (configInt1 == 5) {
                                     rotateMatrix(1);
                                     mirrorHorizontally();
                                 }
@@ -290,23 +395,21 @@ public class Model {
                                 mirrorHorizontally();
                                 rotateMatrix(3);
                             case 3:
-                                if(grid[2][1].getType().equalsIgnoreCase("blank")){
+                                if (grid[2][1].getType().equalsIgnoreCase("blank")) {
                                     grid[2][1].drawO();
-                                }
-                                else{
+                                } else {
                                     grid[1][0].drawO();
                                 }
 
-                                if (configInt1 == 6){
+                                if (configInt1 == 6) {
                                     rotateMatrix(1);
                                     mirrorHorizontally();
                                 }
                                 break;
                             case 7:
-                                if(grid[1][2].getType().equalsIgnoreCase("blank")){
+                                if (grid[1][2].getType().equalsIgnoreCase("blank")) {
                                     grid[1][2].drawO();
-                                }
-                                else{
+                                } else {
                                     grid[0][2].drawO();
                                 }
                                 break;
@@ -318,7 +421,10 @@ public class Model {
                         else if (config == 'g')
                             rotateMatrix(3);
                         break;
-                    case 'b': case 'd': case'f': case 'h':
+                    case 'b':
+                    case 'd':
+                    case 'f':
+                    case 'h':
                         if (config == 'd')
                             rotateMatrix(1);
                         else if (config == 'h')
@@ -326,18 +432,17 @@ public class Model {
                         else if (config == 'f')
                             rotateMatrix(3);
 
-                        switch(configInt1){
+                        switch (configInt1) {
                             case 2:
                                 mirrorHorizontally();
                             case 1:
                                 if (grid[2][0].getType().equalsIgnoreCase("blank")) {
                                     grid[2][0].drawO();
-                                }
-                                else{
+                                } else {
                                     grid[1][0].drawO();
                                 }
 
-                                if(configInt1 == 2)
+                                if (configInt1 == 2)
                                     mirrorHorizontally();
 
                                 break;
@@ -346,12 +451,11 @@ public class Model {
                             case 3:
                                 if (grid[2][2].getType().equalsIgnoreCase("blank")) {
                                     grid[2][2].drawO();
-                                }
-                                else{
+                                } else {
                                     grid[2][1].drawO();
                                 }
 
-                                if(configInt1 == 4)
+                                if (configInt1 == 4)
                                     mirrorHorizontally();
 
                                 break;
@@ -360,19 +464,17 @@ public class Model {
                             case 5:
                                 if (grid[2][2].getType().equalsIgnoreCase("blank")) {
                                     grid[2][2].drawO();
-                                }
-                                else{
+                                } else {
                                     grid[2][0].drawO();
                                 }
 
-                                if(configInt1 == 6)
+                                if (configInt1 == 6)
                                     mirrorHorizontally();
                                 break;
                             case 7:
                                 if (grid[2][2].getType().equalsIgnoreCase("blank")) {
                                     grid[2][2].drawO();
-                                }
-                                else{
+                                } else {
                                     grid[2][0].drawO();
                                 }
                                 break;
@@ -389,6 +491,90 @@ public class Model {
                 break;
             case 7:
                 switch(config) {
+                    case 'e':
+                        switch(configInt1){
+                            case 2:
+                                mirrorHorizontally();
+                                rotateMatrix(3);
+                            case 1:
+                                switch(configInt2){
+                                    case 1:
+                                        if(grid[0][2].getType().equalsIgnoreCase("blank"))
+                                            grid[0][2].drawO();
+                                        else
+                                            grid[2][0].drawO();
+                                        break;
+                                    case 2:
+                                        if(grid[2][0].getType().equalsIgnoreCase("blank")){
+                                            grid[2][0].drawO();
+                                        }
+                                        else
+                                            grid[0][2].drawO();
+                                        break;
+                                    case 3:
+                                        if(grid[1][0].getType().equalsIgnoreCase("blank")){
+                                            grid[1][0].drawO();
+                                        }
+                                        else{
+                                            grid[2][2].drawO();
+                                        }
+                                        break;
+                                    case 4:
+                                        if(grid[1][0].getType().equalsIgnoreCase("blank")){
+                                            grid[1][0].drawO();
+                                        }
+                                        else
+                                            grid[1][2].drawO();
+                                        break;
+                                    case 5:
+                                        if(grid[1][0].getType().equalsIgnoreCase("blank"))
+                                            grid[1][0].drawO();
+                                        else
+                                            grid[1][2].drawO();
+                                        break;
+                                }
+                                if(configInt1 == 2){
+                                    rotateMatrix(1);
+                                    mirrorHorizontally();
+                                }
+                                break;
+                            case 3:
+                                mirrorHorizontally();
+                                rotateMatrix(3);
+                            case 4:
+                                if(grid[1][0].getType().equalsIgnoreCase("blank"))
+                                    grid[1][0].drawO();
+                                else
+                                    grid[1][2].drawO();
+
+                                if(configInt1 == 3) {
+                                    rotateMatrix(1);
+                                    mirrorHorizontally();
+                                }
+                                break;
+                            case 6:
+                                mirrorHorizontally();
+                                rotateMatrix(3);
+                            case 5:
+
+                                if(grid[2][1].getType().equalsIgnoreCase("blank"))
+                                    grid[2][1].drawO();
+                                else
+                                    grid[0][1].drawO();
+
+                                if(configInt1 == 6){
+                                    rotateMatrix(1);
+                                    mirrorHorizontally();
+                                }
+                                break;
+                            case 7:
+                                if(grid[1][0].getType().equalsIgnoreCase("blank"))
+                                    grid[1][0].drawO();
+                                else
+                                    grid[1][2].drawO();
+                                break;
+                        }
+                        break;
                     case 'a': case 'c': case 'g': case 'i':
                         if (config == 'c')
                             rotateMatrix(3);
@@ -527,7 +713,6 @@ public class Model {
                 }
                 break;
         }
-
     }
 
     public void printBoard(){
