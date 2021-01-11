@@ -150,6 +150,8 @@ public class Model {
                 break;
             case 3:
                 switch(config){
+                    case 'e':
+                        break;
                     case 'a': case 'c': case 'g': case 'i':
                         if (config == 'c'){
                             rotateMatrix(3);
@@ -160,14 +162,14 @@ public class Model {
                         else if(config == 'g') {
                             rotateMatrix(1);
                         }
-                        
+
                         if (grid[0][1].getType().equalsIgnoreCase("X")){//UP TILE PLAYER MOVE
                             configInt1 = 1;
                             grid[0][2].drawO();
                         }
                         else if(grid[2][1].getType().equalsIgnoreCase("X")){//BOTTOM TILE PLAYER MOVE
                             configInt1 = 2;
-                            grid[0][2].drawO();
+                            grid[2][0].drawO();
                         }
                         else if(grid[0][2].getType().equalsIgnoreCase("X")){//UPPER RIGHT CORNER MOVE
                             configInt1 = 3;
@@ -179,14 +181,15 @@ public class Model {
                         }
                         else if(grid[1][2].getType().equalsIgnoreCase("X")){//ROTATED MIRRORED VERSION OF configInt 2 (RIGHT TILE)
                             configInt1 = 5;
-                            grid[2][0].drawO();
+                            grid[0][2].drawO();
                         }
                         else if(grid[2][0].getType().equalsIgnoreCase("X")){//ROTATED MIRRORED VERSION OF config 3 (BOTTOM LEFT CORNER)
                             configInt1 = 6;
                             grid[1][0].drawO();
                         }
-                        else if(grid[2][2].getType().equalsIgnoreCase("X")) {//SURE LOSE, UNLESS PLAYER CHOKES MOVE
-                            grid[0][2].drawO();
+                        else if(grid[2][2].getType().equalsIgnoreCase("X")) {//
+                            configInt1 = 7;
+                            grid[1][0].drawO();
                         }
 
                         if (config == 'c'){
@@ -197,8 +200,6 @@ public class Model {
                         }
                         else if(config == 'g')
                             rotateMatrix(3);
-                        break;
-                    case 'e':
                         break;
                     case 'b': case 'd': case 'f': case 'h':
                         //ROTATE MATRIX
@@ -243,12 +244,80 @@ public class Model {
                             rotateMatrix(2);
                         else if (config == 'f')
                             rotateMatrix(1);
-
                         break;
                 }
                 break;
             case 5:
                 switch (config){
+                    case 'a': case 'c': case 'g': case 'i':
+                        if (config == 'c')
+                            rotateMatrix(3);
+                        else if (config == 'i')
+                            rotateMatrix(2);
+                        else if (config == 'g')
+                            rotateMatrix(1);
+
+                        switch(configInt1){
+                            case 4:
+                                mirrorHorizontally();
+                                rotateMatrix(3);
+                            case 1:
+                                if(grid[2][0].getType().equalsIgnoreCase("blank"))
+                                    grid[2][0].drawO();
+                                else
+                                    grid[1][0].drawO();
+
+                                if(configInt1 == 4){
+                                    rotateMatrix(1);
+                                    mirrorHorizontally();
+                                }
+                                break;
+                            case 5:
+                                mirrorHorizontally();
+                                rotateMatrix(3);
+                            case 2:
+                                if(grid[0][2].getType().equalsIgnoreCase("blank"))
+                                    grid[0][2].drawO();
+                                else
+                                    grid[0][1].drawO();
+
+                                if(configInt1 == 5){
+                                    rotateMatrix(1);
+                                    mirrorHorizontally();
+                                }
+                                break;
+                            case 6:
+                                mirrorHorizontally();
+                                rotateMatrix(3);
+                            case 3:
+                                if(grid[2][1].getType().equalsIgnoreCase("blank")){
+                                    grid[2][1].drawO();
+                                }
+                                else{
+                                    grid[1][0].drawO();
+                                }
+
+                                if (configInt1 == 6){
+                                    rotateMatrix(1);
+                                    mirrorHorizontally();
+                                }
+                                break;
+                            case 7:
+                                if(grid[1][2].getType().equalsIgnoreCase("blank")){
+                                    grid[1][2].drawO();
+                                }
+                                else{
+                                    grid[0][2].drawO();
+                                }
+                                break;
+                        }
+                        if (config == 'c')
+                            rotateMatrix(1);
+                        else if (config == 'i')
+                            rotateMatrix(2);
+                        else if (config == 'g')
+                            rotateMatrix(3);
+                        break;
                     case 'b': case 'd': case'f': case 'h':
                         if (config == 'd')
                             rotateMatrix(1);
@@ -320,6 +389,78 @@ public class Model {
                 break;
             case 7:
                 switch(config) {
+                    case 'a': case 'c': case 'g': case 'i':
+                        if (config == 'c')
+                            rotateMatrix(3);
+                        else if (config == 'i')
+                            rotateMatrix(2);
+                        else if (config == 'g')
+                            rotateMatrix(1);
+
+
+                        switch(configInt1){
+                            case 4:
+                                mirrorHorizontally();
+                                rotateMatrix(3);
+                            case 1:
+
+                                if(grid[1][2].getType().equalsIgnoreCase("blank"))
+                                    grid[1][2].drawO();
+                                else
+                                    grid[2][1].drawO();
+
+                                if(configInt1 == 4){
+                                    rotateMatrix(1);
+                                    mirrorHorizontally();
+                                }
+
+                                break;
+                            case 5:
+                                mirrorHorizontally();
+                                rotateMatrix(3);
+                            case 2:
+
+                                if(grid[1][2].getType().equalsIgnoreCase("blank"))
+                                    grid[1][2].drawO();
+                                else
+                                    grid[2][2].drawO();
+
+
+                                if(configInt1 == 5){
+                                    rotateMatrix(1);
+                                    mirrorHorizontally();
+                                }
+                                break;
+                            case 6:
+                                mirrorHorizontally();
+                                rotateMatrix(3);
+                            case 3:
+
+                                if(grid[1][2].getType().equalsIgnoreCase("blank"))
+                                    grid[1][2].drawO();
+                                else
+                                    grid[2][2].drawO();
+
+                                if (configInt1 == 6){
+                                    rotateMatrix(1);
+                                    mirrorHorizontally();
+                                }
+                                break;
+                            case 7:
+                                if(grid[0][2].getType().equalsIgnoreCase("blank")){
+                                    grid[0][2].drawO();
+                                }
+                                else
+                                    grid[2][1].drawO();
+                                break;
+                        }
+                        if (config == 'c')
+                            rotateMatrix(1);
+                        else if (config == 'i')
+                            rotateMatrix(2);
+                        else if (config == 'g')
+                            rotateMatrix(3);
+                        break;
                     case 'b':
                     case 'd':
                     case 'f':
