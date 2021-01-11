@@ -29,6 +29,10 @@ public class Controller {
     Button Level2 = new Button();
     @FXML
     Button PlayAgain = new Button();
+    @FXML
+    Label xScore = new Label();
+    @FXML
+    Label oScore = new Label();
 
     Model model = new Model();
 
@@ -45,6 +49,7 @@ public class Controller {
                 Model.grid[i][j].setCode(code); // to be able to generate code 0-9 later for random
                 code++;
                 box.getChildren().add(Model.grid[i][j]);
+                //System.out.println(Model.grid[i][j].getCode());
             }
         }
         msg.setText("Your turn!");
@@ -58,7 +63,7 @@ public class Controller {
         double posY = me.getY();
         int row = (int) (posY/200);
         int col = (int) (posX/200);
-
+       // System.out.println("score: " + "x:" + Model.xScore + " o: " + Model.oScore);
         if (model.isPlayer1Turn() && model.checkWinner() == 0 && Model.grid[row][col].getType().equalsIgnoreCase("blank")){
            if (Model.gameCount % 2 != 0)
                Model.grid[row][col].drawX();
@@ -66,15 +71,21 @@ public class Controller {
                Model.grid[row][col].drawO();
 
            model.setPastMove(row, col);
+
            if (model.checkWinner() == 1){
+             //   xScore.setText(String.valueOf(Model.xScore));
                 msg.setText("Player X wins");
+           }
+           if (model.checkWinner() == -1){
+                msg.setText("Player O wins");
+             //   oScore.setText(String.valueOf(Model.oScore));
             }
 
             model.setPlayer1Turn(false);
 
             ctr++;
 
-            if (ctr < 8 && !model.player1Turn && model.checkWinner() == 0) {
+            if (ctr < 9 && !model.player1Turn && model.checkWinner() == 0) {
                 switch (level){
                     case 0:
                         System.out.println("random");
@@ -94,20 +105,24 @@ public class Controller {
                         model.level2();
                         break;
                 }
-
                 model.setPlayer1Turn(true);
                 ctr++;
-
             }
         }
+
         System.out.println("check winner: " + model.checkWinner());
         if (model.checkWinner() == -1){
             msg.setText("Player O wins");
+           // oScore.setText(String.valueOf(Model.oScore));
+        }
+        if (model.checkWinner() == 1){
+            msg.setText("Player X wins");
+           // xScore.setText(String.valueOf(Model.xScore));
         }
         if (ctr == 9 && model.checkWinner() == 0){
             msg.setText("TIE!!");
-
         }
+
         if (ctr == 9 || model.checkWinner() != 0){
             PlayAgain.setVisible(true);
         }
@@ -180,6 +195,8 @@ public class Controller {
 
             Model.gameCount++;
         } else if (e.getSource() == PlayAgain){
+            //Model.oScore = 0;
+            //Model.xScore = 0;
             msg.setText("");
             Model.gameCount++;
             System.out.println(Model.gameCount);

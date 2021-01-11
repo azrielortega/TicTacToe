@@ -14,31 +14,116 @@ public class Model {
     public static int configInt2 = -1;
     public static boolean end = false;
 
+    public int xScore = 0;
+    public int oScore = 0;
+
     public void level0(){
         int tileCode = 0;
-        int min = 1;
+        int min = 0;
         int max = 8;
         boolean found = false;
+        // check if winning move else, make a random move
+        String tempType = "";
+        if (gameCount%2 != 0){
+            tempType = "O";
+        }else {
+            tempType = "X";
+        }
+        int[] temp = checkIfWin(tempType);
 
-        while (!found){
-            tileCode = ThreadLocalRandom.current().nextInt(min, max + 1); // generate number from 1-8
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-                    if (grid[i][j].getCode() == tileCode){
-                        if (grid[i][j].getType().equalsIgnoreCase("blank")){
-                            if (gameCount%2 != 0){
-                                grid[i][j].drawO();
+        System.out.println("temp[0]:" + temp[0] + " temp[1]:" + temp[1]);
+        if (temp[0] == -1 && temp[1] == -1){
+            while (!found){
+                tileCode = ThreadLocalRandom.current().nextInt(min, max + 1); // generate number from 0-8
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        if (grid[i][j].getCode() == tileCode){
+                            if (grid[i][j].getType().equalsIgnoreCase("blank")){
+                                if (gameCount%2 != 0){
+                                    grid[i][j].drawO();
+                                }
+                                else {
+                                    grid[i][j].drawX();
+                                }
+                                found = true;
                             }
-                            else {
-                                grid[i][j].drawX();
-                            }
-                            found = true;
                         }
                     }
                 }
             }
+        } else {
+            if (gameCount%2 != 0){
+                grid[temp[0]][temp[1]].drawO();
+            }
+            else {
+                grid[temp[0]][temp[1]].drawX();
+            }
         }
     }
+
+    public int[] checkIfWin(String tempType){
+        int temp[] = {-1, -1};
+        for (int i = 0; i < 3; i++) {
+            if (grid[i][0].getType().equalsIgnoreCase(grid[i][1].getType()) && grid[i][0].getType().equalsIgnoreCase(tempType)){ //---
+                temp[0] = i;
+                temp[1] = 2;
+            } else if (grid[i][0].getType().equalsIgnoreCase(grid[i][2].getType())&& grid[i][0].getType().equalsIgnoreCase(tempType)){
+                temp[0] = i;
+                temp[1] = 1;
+            } else if (grid[i][1].getType().equalsIgnoreCase(grid[i][2].getType())&& grid[i][1].getType().equalsIgnoreCase(tempType)){
+                temp[0] = i;
+                temp[1] = 0;
+            }
+
+            else if (grid[0][i].getType().equalsIgnoreCase(grid[1][i].getType()) && grid[0][i].getType().equalsIgnoreCase(tempType)){ // |
+                temp[0] = 2;
+                temp[1] = i;
+            } else if (grid[1][i].getType().equalsIgnoreCase(grid[2][i].getType()) && grid[1][i].getType().equalsIgnoreCase(tempType)){
+                temp[0] = 0;
+                temp[1] = i;
+            } else if (grid[0][i].getType().equalsIgnoreCase(grid[2][i].getType()) && grid[0][i].getType().equalsIgnoreCase(tempType)){
+                temp[0] = 1;
+                temp[1] = i;
+            }
+        }
+        //check \
+        if (grid[0][0].getType().equalsIgnoreCase(grid[1][1].getType())&& grid[1][1].getType().equalsIgnoreCase(tempType) ){
+            temp[0] = 2;
+            temp[1] = 2;
+        }
+        else if (grid[0][0].getType().equalsIgnoreCase(grid[2][2].getType()) && grid[0][0].getType().equalsIgnoreCase(tempType)){
+            temp[0] = 1;
+            temp[1] = 1;
+        }
+        else if (grid[1][1].getType().equalsIgnoreCase(grid[2][2].getType())&& grid[1][1].getType().equalsIgnoreCase(tempType)){
+            temp[0] = 0;
+            temp[1] = 0;
+        }
+
+        // check /
+        else if (grid[2][0].getType().equalsIgnoreCase(grid[1][1].getType())&& grid[1][1].getType().equalsIgnoreCase(tempType)){
+            temp[0] = 0;
+            temp[1] = 2;
+        }
+        else if (grid[0][2].getType().equalsIgnoreCase(grid[1][1].getType()) && grid[1][1].getType().equalsIgnoreCase(tempType)){
+            temp[0] = 2;
+            temp[1] = 0;
+        }
+        else if (grid[2][0].getType().equalsIgnoreCase(grid[0][2].getType())&& grid[2][0].getType().equalsIgnoreCase(tempType)){
+            temp[0] = 1;
+            temp[1] = 1;
+        }
+
+        if (temp[0] != -1 && temp[1] != -1 && grid[temp[0]][temp[1]].getType().equalsIgnoreCase("blank"))
+            return temp;
+        else {
+            temp[0] = -1;
+            temp[1] = -1;
+            return temp;
+        }
+    }
+
+
 
     public void setPastMove(int x, int y){
        switch(x){
@@ -774,7 +859,6 @@ public class Model {
 
     public void level2(){
         int move[] = bestMove();
-
     }
 
     public int checkWinner(){
@@ -798,14 +882,22 @@ public class Model {
 
         // check
         if (grid[0][0].getType().equalsIgnoreCase(grid[1][1].getType()) && grid[0][0].getType().equalsIgnoreCase(grid[2][2].getType()) && grid[0][0].getType().equalsIgnoreCase("X")){
+            xScore++;
+            System.out.println(xScore);
             return 1;
         } else if (grid[0][0].getType().equalsIgnoreCase(grid[1][1].getType()) && grid[0][0].getType().equalsIgnoreCase(grid[2][2].getType()) && grid[0][0].getType().equalsIgnoreCase("O")){
+            oScore++;
+            System.out.println(oScore);
             return -1;
         }
         // check /
         if(grid[2][0].getType().equalsIgnoreCase(grid[1][1].getType()) && grid[2][0].getType().equalsIgnoreCase(grid[0][2].getType()) && grid[2][0].getType().equalsIgnoreCase("X")){
+            xScore++;
+            System.out.println(xScore);
             return 1;
         } else if(grid[2][0].getType().equalsIgnoreCase(grid[1][1].getType()) && grid[2][0].getType().equalsIgnoreCase(grid[0][2].getType()) && grid[2][0].getType().equalsIgnoreCase("O")){
+            oScore++;
+            System.out.println(oScore);
             return -1;
         }
         return 0;
