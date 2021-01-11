@@ -169,51 +169,182 @@ public class Model {
        }
     }
 
-    public void level1XAi(int moveCount){
-        if(!end) {
-            switch (moveCount) {
-                case 0:
-                    grid[0][0].drawX();
-                    break;
-                case 2:
-                    //Player moves : a
-                    switch (pastMove) {//CHECKS WHAT SET OF MOVES WILL DO BASED ON PLAYER'S FIRST MOVE
-                        case 'b':
-                        case 'f'://SURE WIN
-                            grid[2][2].drawX();
-                            config = 'b';
-                            break;
-                        case 'd':
-                        case 'h'://SURE WIN
-                            grid[1][1].drawX();
-                            config = 'd';
-                            break;
-                    }
-                    break;
-                case 4:
-                    switch (config) {
-                        case 'b':
-                        case 'f'://SURE WIN
-                            if (grid[1][1].getType() == "blank") {//FINISHING MOVE
-                                grid[1][1].drawX();
-                                end = true;
-                            }
-                            else
-                                grid[2][2].drawX();
-                            break;
-                        case 'd':
-                        case 'h'://SURE WIN
-                            if(grid[2][2].getType() == "blank"){
-                                grid[2][2].drawX();
-                                end = true;
-                            }
-                            else
-                                grid[0][2].drawX();
-                            break;
+    public void level1XAi(int moveCount) {
+        switch (moveCount) {
+            case 0:
+                grid[1][1].drawX();
+                break;
+            case 2:
+                //Player moves : a
+                switch (pastMove) {//CHECKS WHAT SET OF MOVES WILL DO BASED ON PLAYER'S FIRST MOVE
+                    case 'b':
+                    case 'd'://SURE WIN
+                        grid[0][0].drawX();
+                        config = pastMove;
+                        break;
 
-                    }
-                    break;
-            }
+                    case 'f':
+                    case 'h'://SURE WIN
+                        grid[2][2].drawX();
+                        config = pastMove;
+                        break;
+
+                    case 'a':
+                    case 'c':
+                        grid[0][1].drawX();
+                        config = pastMove;
+                        break;
+                    case 'i':
+                    case 'g':
+                        grid[2][1].drawX();
+                        config = pastMove;
+                        break;
+                }
+                break;
+            case 4:
+                switch (config) {
+                    case 'a':
+                    case 'c':
+                    case 'i':
+                    case 'g':
+                        if (config == 'c')
+                            mirrorHorizontally();
+                        else if (config == 'i') {
+                            rotateMatrix(2);
+                        } else if (config == 'g') {
+                            mirrorHorizontally();
+                            rotateMatrix(2);
+                        }
+
+                        if (grid[2][1].getType() == "blank")
+                            grid[2][1].drawX();
+
+                        else
+                            grid[2][0].drawX();
+
+                        if (config == 'c')
+                            mirrorHorizontally();
+                        else if (config == 'i') {
+                            rotateMatrix(2);
+                        } else if (config == 'g') {
+                            mirrorHorizontally();
+                            rotateMatrix(2);
+                        }
+                        break;
+
+                    case 'f':
+                    case 'h':
+                        mirrorHorizontally();
+                        rotateMatrix(1);
+                        System.out.println("CURRENT BOARD FOR CHECKING");
+                        printBoard();
+                    case 'b':
+                    case 'd'://SURE WIN
+                        if (grid[2][2].getType() == "blank") //FINISHING MOVE
+                            grid[2][2].drawX();
+
+                        else if (grid[2][2].getType() == "O" && (config == 'b' || config == 'f'))
+                            grid[2][0].drawX();
+
+                        else if (grid[2][2].getType() == "O" && (config == 'd' || config == 'h'))
+                            grid[0][2].drawX();
+
+                        if (config == 'f' || config == 'h') {
+                            mirrorHorizontally();
+                            rotateMatrix(1);
+                        }
+
+                        break;
+                }
+                break;
+            case 6:
+                switch (config) {
+                    case 'a':
+                    case 'c':
+                    case 'i':
+                    case 'g':
+                        if (config == 'c')
+                            mirrorHorizontally();
+                        else if (config == 'i') {
+                            rotateMatrix(2);
+                        } else if (config == 'g') {
+                            mirrorHorizontally();
+                            rotateMatrix(2);
+                        }
+
+                        if (grid[0][2].getType() == "blank")
+                            grid[0][2].drawX();
+
+                        else
+                            grid[1][2].drawX();
+
+                        if (config == 'c')
+                            mirrorHorizontally();
+                        else if (config == 'i') {
+                            rotateMatrix(2);
+                        } else if (config == 'g') {
+                            mirrorHorizontally();
+                            rotateMatrix(2);
+                        }
+                        break;
+                    case 'b':
+                        if (grid[1][0].getType() == "blank")
+                            grid[1][0].drawX();
+                        else
+                            grid[0][2].drawX();
+                        break;
+                    case 'd':
+                        if (grid[0][1].getType() == "blank")
+                            grid[0][1].drawX();
+                        else
+                            grid[2][2].drawX();
+                        break;
+                    case 'f':
+                        if (grid[2][1].getType() == "blank")
+                            grid[2][1].drawX();
+                        else
+                            grid[0][2].drawX();
+                        break;
+                    case 'h':
+                        if (grid[2][0].getType() == "blank")
+                            grid[2][0].drawX();
+                        else
+                            grid[1][2].drawX();
+                        break;
+                }
+                break;
+            case 8:
+                switch (config) {
+                    case 'a':
+                    case 'c':
+                    case 'i':
+                    case 'g':
+                        if (config == 'c')
+                            mirrorHorizontally();
+                        else if (config == 'i') {
+                            rotateMatrix(2);
+                        } else if (config == 'g') {
+                            mirrorHorizontally();
+                            rotateMatrix(2);
+                        }
+
+                        if (grid[1][0].getType() == "blank")
+                            grid[1][0].drawX();
+
+                        else
+                            grid[2][2].drawX();
+
+                        if (config == 'c')
+                            mirrorHorizontally();
+                        else if (config == 'i') {
+                            rotateMatrix(2);
+                        } else if (config == 'g') {
+                            mirrorHorizontally();
+                            rotateMatrix(2);
+                        }
+                        break;
+                }
+                break;
         }
     }
 

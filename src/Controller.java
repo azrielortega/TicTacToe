@@ -208,10 +208,19 @@ public class Controller {
             }
             PlayAgain.setVisible(false);
 
-            if (Model.gameCount %2 == 0){
+            if (Model.gameCount %2 == 0 && level == 2){//LEVEL 2
                 model.bestMove();
                 ctr++;
-            } else {
+            }
+            else if (Model.gameCount % 2 == 0 && level == 1){//LEVEL 1
+                model.level1XAi(ctr);
+                ctr++;
+            }
+            else if(Model.gameCount % 2 == 0 && level == 0){//LEVEL 0
+                model.level0();
+                ctr ++;
+            }
+            else{
                 model.setPlayer1Turn(true);
             }
 
