@@ -224,9 +224,11 @@ public class Controller {
                 model.level0();
                 ctr ++;
             }
-            else{
-                model.setPlayer1Turn(true);
-            }
+
+            model.setPlayer1Turn(true);
+            System.out.println("ur turn!");
+            msg.setText("Your turn!");
+
 
         }
     }
