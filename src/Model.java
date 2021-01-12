@@ -999,33 +999,33 @@ public class Model {
         for (int i = 0; i < 3; i++) {
             //check row
             if (grid[i][0].getType().equalsIgnoreCase(grid[i][1].getType()) && grid[i][0].getType().equalsIgnoreCase(grid[i][2].getType()) && grid[i][0].getType().equalsIgnoreCase("X")){
-                return 1;
+                return 10;
             } else if (grid[i][0].getType().equalsIgnoreCase(grid[i][1].getType()) && grid[i][0].getType().equalsIgnoreCase(grid[i][2].getType()) && grid[i][0].getType().equalsIgnoreCase("O")) {
-                return -1;
+                return -10;
             }
             //check col
             if (grid[0][i].getType().equalsIgnoreCase(grid[1][i].getType()) && grid[0][i].getType().equalsIgnoreCase(grid[2][i].getType()) && grid[0][i].getType().equalsIgnoreCase("X")){
-                return 1; //check col
+                return 10; //check col
             } else if (grid[0][i].getType().equalsIgnoreCase(grid[1][i].getType()) && grid[0][i].getType().equalsIgnoreCase(grid[2][i].getType()) && grid[0][i].getType().equalsIgnoreCase("O")) {
-                return -1; //check col
+                return -10; //check col
             }
         }
 
         // check
         if (grid[0][0].getType().equalsIgnoreCase(grid[1][1].getType()) && grid[0][0].getType().equalsIgnoreCase(grid[2][2].getType()) && grid[0][0].getType().equalsIgnoreCase("X")){
-            System.out.println(xScore);
-            return 1;
+            //System.out.println(xScore);
+            return 10;
         } else if (grid[0][0].getType().equalsIgnoreCase(grid[1][1].getType()) && grid[0][0].getType().equalsIgnoreCase(grid[2][2].getType()) && grid[0][0].getType().equalsIgnoreCase("O")){
-            System.out.println(oScore);
-            return -1;
+            //System.out.println(oScore);
+            return -10;
         }
         // check /
         if(grid[2][0].getType().equalsIgnoreCase(grid[1][1].getType()) && grid[2][0].getType().equalsIgnoreCase(grid[0][2].getType()) && grid[2][0].getType().equalsIgnoreCase("X")){
-            System.out.println(xScore);
-            return 1;
+            //System.out.println(xScore);
+            return 10;
         } else if(grid[2][0].getType().equalsIgnoreCase(grid[1][1].getType()) && grid[2][0].getType().equalsIgnoreCase(grid[0][2].getType()) && grid[2][0].getType().equalsIgnoreCase("O")){
-            System.out.println(oScore);
-            return -1;
+            //System.out.println(oScore);
+            return -10;
         }
         return 0;
     }
@@ -1034,8 +1034,8 @@ public class Model {
         int bestVal = -1000;
         int moveVal;
         int[] move = new int[2];
-        move[0] = -1; // row
-        move[1] = -1;  // col
+        move[0] = -10; // row
+        move[1] = -10;  // col
         System.out.println(gameCount);
         // check each tile and evaluate minimax value for each.
         // return optimal value
@@ -1052,12 +1052,12 @@ public class Model {
                     //compute value
                     moveVal = minimax(0, false);
                     grid[i][j].setInitial(); //undo the move bc ur just checking but not really setting
-
+                    System.out.println("row:" + i + " col:" + j + "moveVal:" + moveVal + " bestVal:" + bestVal);
                     if (moveVal > bestVal){ // update bestVal
                         bestVal = moveVal;
                         move[0] = i;
                         move[1] = j;
-
+                        System.out.println("newww row:" + i + " col:" + j + " moveVal:" + moveVal + " bestVal:" + bestVal);
                     }
                 }
             }
@@ -1076,9 +1076,9 @@ public class Model {
     public int minimax(int depth, boolean isMaximizing){
         int score = checkWinner();
 
-        if (score == 1) // if max won
+        if (score == 10) // if max won
             return score;
-        if (score == -1) // if min won
+        if (score == -10) // if min won
             return score;
 
         int bestScore;
