@@ -34,11 +34,11 @@ public class Controller {
     @FXML
     Label oScore = new Label();
 
-    Model model = new Model();
+    static Model model = new Model();
 
     private static int level = -1;
 
-    int ctr = 0;
+    static int ctr = 0;
     public void createGrid(){ // to create 3x3 grid
         int code = 0;
         for (int i = 0; i < 3; i++) {
@@ -64,10 +64,10 @@ public class Controller {
         int row = (int) (posY/200);
         int col = (int) (posX/200);
        // System.out.println("score: " + "x:" + Model.xScore + " o: " + Model.oScore);
-        if (model.isPlayer1Turn() && model.checkWinner() == 0 && Model.grid[row][col].getType().equalsIgnoreCase("blank")){
-           if (Model.gameCount % 2 != 0)
+        if (model.isPlayer1Turn() && model.checkWinner() == -1 && Model.grid[row][col].getType().equalsIgnoreCase("blank")){
+           if (Model.gameCount % 2 != 0) //if odd, human is 1st player
                Model.grid[row][col].drawX();
-           else
+           else //if even, AI is 1st player
                Model.grid[row][col].drawO();
 
            model.setPastMove(row, col);
@@ -86,7 +86,7 @@ public class Controller {
 
             ctr++;
 
-            if (ctr < 9 && !model.player1Turn && model.checkWinner() == 0) {
+            if (ctr < 9 && !model.player1Turn && model.checkWinner() == -1) {
                 switch (level){
                     case 0:
                         System.out.println("random");
@@ -126,7 +126,7 @@ public class Controller {
             msg.setText("TIE!!");
         }
 
-        if (ctr == 9 || model.checkWinner() != 0){
+        if (ctr == 9 || model.checkWinner() != -1){
             PlayAgain.setVisible(true);
         }
 

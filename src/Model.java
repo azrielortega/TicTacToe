@@ -993,14 +993,17 @@ public class Model {
     }
 
     public int checkWinner(){
-        // X wins = 1, used 1 and 0 for it to bre reusable in all algo
-        // O wins = -1
+        // X wins = 10, used 1 and 0 for it to bre reusable in all algo
+        // O wins = -10
         // tie = 0
+        // no one won = -1
+        // create separate winner if AI or
         for (int i = 0; i < 3; i++) {
             //check row
             if (grid[i][0].getType().equalsIgnoreCase(grid[i][1].getType()) && grid[i][0].getType().equalsIgnoreCase(grid[i][2].getType()) && grid[i][0].getType().equalsIgnoreCase("X")){
                 return 10;
-            } else if (grid[i][0].getType().equalsIgnoreCase(grid[i][1].getType()) && grid[i][0].getType().equalsIgnoreCase(grid[i][2].getType()) && grid[i][0].getType().equalsIgnoreCase("O")) {
+            }
+            else if (grid[i][0].getType().equalsIgnoreCase(grid[i][1].getType()) && grid[i][0].getType().equalsIgnoreCase(grid[i][2].getType()) && grid[i][0].getType().equalsIgnoreCase("O")) {
                 return -10;
             }
             //check col
@@ -1027,15 +1030,104 @@ public class Model {
             //System.out.println(oScore);
             return -10;
         }
-        return 0;
+
+        if (Controller.ctr < 9) { // no one won
+            System.out.println("CTR:" + Controller.ctr);
+            return -1;
+        }
+        return 0; //tie
+    }
+
+    public int checkMinimaxWinner(){
+        // X wins = 10, used 1 and 0 for it to bre reusable in all algo
+        // O wins = -10
+        // tie = 0
+        // no one won = -1
+        // create separate winner if AI or Human
+        // even - x is maximizing
+        for (int i = 0; i < 3; i++) { //X O X
+            //check row
+            if (gameCount %2 != 0){ // if AI is second player //check row
+                if (grid[i][0].getType().equalsIgnoreCase(grid[i][1].getType()) && grid[i][0].getType().equalsIgnoreCase(grid[i][2].getType()) && grid[i][0].getType().equalsIgnoreCase("O")) {
+                    return 10;
+                }
+                if (grid[i][0].getType().equalsIgnoreCase(grid[i][1].getType()) && grid[i][0].getType().equalsIgnoreCase(grid[i][2].getType()) && grid[i][0].getType().equalsIgnoreCase("X")){
+                    return -10;
+                }
+                if (grid[0][i].getType().equalsIgnoreCase(grid[1][i].getType()) && grid[0][i].getType().equalsIgnoreCase(grid[2][i].getType()) && grid[0][i].getType().equalsIgnoreCase("X")){
+                    return -10; //check col
+                }
+                if (grid[0][i].getType().equalsIgnoreCase(grid[1][i].getType()) && grid[0][i].getType().equalsIgnoreCase(grid[2][i].getType()) && grid[0][i].getType().equalsIgnoreCase("O")) {
+                    return 10; //check col
+                }
+            } else if (gameCount %2 == 0){ // if AI is first player //cehck col
+                if (grid[i][0].getType().equalsIgnoreCase(grid[i][1].getType()) && grid[i][0].getType().equalsIgnoreCase(grid[i][2].getType()) && grid[i][0].getType().equalsIgnoreCase("O")) {
+                    return -10;
+                }
+                if (grid[i][0].getType().equalsIgnoreCase(grid[i][1].getType()) && grid[i][0].getType().equalsIgnoreCase(grid[i][2].getType()) && grid[i][0].getType().equalsIgnoreCase("X")){
+                    return 10;
+                }
+                if (grid[0][i].getType().equalsIgnoreCase(grid[1][i].getType()) && grid[0][i].getType().equalsIgnoreCase(grid[2][i].getType()) && grid[0][i].getType().equalsIgnoreCase("X")){
+                    return 10; //check col
+                }
+                if (grid[0][i].getType().equalsIgnoreCase(grid[1][i].getType()) && grid[0][i].getType().equalsIgnoreCase(grid[2][i].getType()) && grid[0][i].getType().equalsIgnoreCase("O")) {
+                    return -10; //check col
+                }
+            }
+        }
+
+        // check
+        if (gameCount %2 != 0) { // AI 2nd player
+            if (grid[0][0].getType().equalsIgnoreCase(grid[1][1].getType()) && grid[0][0].getType().equalsIgnoreCase(grid[2][2].getType()) && grid[0][0].getType().equalsIgnoreCase("X")) {
+                //System.out.println(xScore);
+                return -10;
+            } else if (grid[0][0].getType().equalsIgnoreCase(grid[1][1].getType()) && grid[0][0].getType().equalsIgnoreCase(grid[2][2].getType()) && grid[0][0].getType().equalsIgnoreCase("O")) {
+                //System.out.println(oScore);
+                return 10;
+            }
+        } else if (gameCount %2 == 0){
+            if (grid[0][0].getType().equalsIgnoreCase(grid[1][1].getType()) && grid[0][0].getType().equalsIgnoreCase(grid[2][2].getType()) && grid[0][0].getType().equalsIgnoreCase("X")) {
+                //System.out.println(xScore);
+                return 10;
+            } else if (grid[0][0].getType().equalsIgnoreCase(grid[1][1].getType()) && grid[0][0].getType().equalsIgnoreCase(grid[2][2].getType()) && grid[0][0].getType().equalsIgnoreCase("O")) {
+                //System.out.println(oScore);
+                return -10;
+            }
+        }
+
+        if (gameCount %2 != 0){
+            if(grid[2][0].getType().equalsIgnoreCase(grid[1][1].getType()) && grid[2][0].getType().equalsIgnoreCase(grid[0][2].getType()) && grid[2][0].getType().equalsIgnoreCase("X")){
+                //System.out.println(xScore);
+                return -10;
+            } else if(grid[2][0].getType().equalsIgnoreCase(grid[1][1].getType()) && grid[2][0].getType().equalsIgnoreCase(grid[0][2].getType()) && grid[2][0].getType().equalsIgnoreCase("O")){
+                //System.out.println(oScore);
+                return 10;
+            }
+        } else if (gameCount %2 == 0){
+            if(grid[2][0].getType().equalsIgnoreCase(grid[1][1].getType()) && grid[2][0].getType().equalsIgnoreCase(grid[0][2].getType()) && grid[2][0].getType().equalsIgnoreCase("X")){
+                //System.out.println(xScore);
+                return 10;
+            } else if(grid[2][0].getType().equalsIgnoreCase(grid[1][1].getType()) && grid[2][0].getType().equalsIgnoreCase(grid[0][2].getType()) && grid[2][0].getType().equalsIgnoreCase("O")){
+                //System.out.println(oScore);
+                return -10;
+            }
+        }
+
+        // check /
+
+        if (Controller.ctr < 9) { // no one won
+            System.out.println("CTR:" + Controller.ctr);
+            return -1;
+        }
+        return 0; //tie
     }
 
     public int[] bestMove(){
         int bestVal = -1000;
         int moveVal;
         int[] move = new int[2];
-        move[0] = -10; // row
-        move[1] = -10;  // col
+        move[0] = 0; // row
+        move[1] = 0;  // col
         System.out.println(gameCount);
         // check each tile and evaluate minimax value for each.
         // return optimal value
@@ -1046,18 +1138,18 @@ public class Model {
                     if(gameCount%2 != 0){
                         grid[i][j].drawO(); // make move
                     } else {
-                        grid[i][j].drawX();
+                        grid[i][j].drawX(); // AI first
                     }
 
                     //compute value
                     moveVal = minimax(0, false);
                     grid[i][j].setInitial(); //undo the move bc ur just checking but not really setting
-                    System.out.println("row:" + i + " col:" + j + "moveVal:" + moveVal + " bestVal:" + bestVal);
+                    //System.out.println("row:" + i + " col:" + j + "moveVal:" + moveVal + " bestVal:" + bestVal);
                     if (moveVal > bestVal){ // update bestVal
                         bestVal = moveVal;
                         move[0] = i;
                         move[1] = j;
-                        System.out.println("newww row:" + i + " col:" + j + " moveVal:" + moveVal + " bestVal:" + bestVal);
+                        //System.out.println("newww row:" + i + " col:" + j + " moveVal:" + moveVal + " bestVal:" + bestVal);
                     }
                 }
             }
@@ -1067,7 +1159,7 @@ public class Model {
         } else {
             grid[move[0]][move[1]].drawX();
         }
-        player1Turn = true;
+        //player1Turn = true;
         return move;
     }
 
@@ -1075,12 +1167,15 @@ public class Model {
 
     public int minimax(int depth, boolean isMaximizing){
         int score = checkWinner();
-
-        if (score == 10) // if max won
+        System.out.println("SCORE:"+score);
+        /*if (score == 10) // if max won
             return score;
         if (score == -10) // if min won
-            return score;
+            return score;*/
 
+        if (score != -1){
+            return score;
+        }
         int bestScore;
 
         if (isMaximizing){
