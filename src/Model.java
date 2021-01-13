@@ -1120,7 +1120,7 @@ public class Model {
         }
 
         // check /
-        System.out.println("CTR:" + ctr);
+        //System.out.println("CTR:" + ctr);
         if (ctr < 8) { // no one won
             return -1;
         }
