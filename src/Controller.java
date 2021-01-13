@@ -53,7 +53,6 @@ public class Controller {
             }
         }
         msg.setText("Your turn!");
-        System.out.println(level);
         PlayAgain.setVisible(false);
     }
 
@@ -112,8 +111,6 @@ public class Controller {
             //System.out.println("XSCORE - " + model.xScore);
             //System.out.println("OSCORE - " + model.oScore);
         }
-
-        System.out.println("check winner: " + model.checkWinner());
         if (model.checkWinner() == -10){
             msg.setText("Player O wins");
            // oScore.setText(String.valueOf(Model.oScore));
@@ -203,7 +200,6 @@ public class Controller {
             //System.out.println("XSCORE - OSCORE : " + Model.xScore + ":" + Model.oScore);
             msg.setText("");
             Model.gameCount++;
-            System.out.println(Model.gameCount);
             ctr = 0;
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
@@ -226,7 +222,6 @@ public class Controller {
             }
 
             model.setPlayer1Turn(true);
-            System.out.println("ur turn!");
             msg.setText("Your turn!");
 
 
