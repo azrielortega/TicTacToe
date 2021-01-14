@@ -197,7 +197,7 @@ public class Controller {
         } else if (e.getSource() == PlayAgain){
             //Model.oScore = 0;
             //Model.xScore = 0;
-            System.out.println("XSCORE - OSCORE : " + Model.xScore + ":" + Model.oScore);
+            //System.out.println("XSCORE - OSCORE : " + Model.xScore + ":" + Model.oScore);
             msg.setText("");
             Model.gameCount++;
             ctr = 0;
