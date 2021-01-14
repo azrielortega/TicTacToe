@@ -1017,7 +1017,6 @@ public class Model {
             //System.out.println(oScore);
             return -10;
         }
-        System.out.println(Controller.ctr);
         if (Controller.ctr < 9) { // no one won
             return -1;
         }

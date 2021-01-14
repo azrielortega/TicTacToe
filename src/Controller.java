@@ -108,8 +108,6 @@ public class Controller {
                 model.setPlayer1Turn(true);
                 ctr++;
             }
-            //System.out.println("XSCORE - " + model.xScore);
-            //System.out.println("OSCORE - " + model.oScore);
         }
         if (model.checkWinner() == -10){
             msg.setText("Player O wins");
@@ -197,7 +195,6 @@ public class Controller {
         } else if (e.getSource() == PlayAgain){
             //Model.oScore = 0;
             //Model.xScore = 0;
-            System.out.println("XSCORE - OSCORE : " + Model.xScore + ":" + Model.oScore);
             msg.setText("");
             Model.gameCount++;
             ctr = 0;
