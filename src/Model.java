@@ -429,7 +429,7 @@ public class Model {
                             configInt1 = 6;
                             grid[1][0].drawO();
                         }
-                        else if(grid[2][2].getType().equalsIgnoreCase("X")) {//
+                        else if(grid[2][2].getType().equalsIgnoreCase("X")) {//BOTTOM RIGHT
                             configInt1 = 7;
                             grid[1][0].drawO();
                         }
@@ -840,8 +840,9 @@ public class Model {
                                 }
                                 break;
                             case 7:
-                                if(grid[0][2].getType().equalsIgnoreCase("blank")){
-                                    grid[0][2].drawO();
+                                System.out.println(grid[0][2].getType());
+                                if(grid[2][0].getType().equalsIgnoreCase("blank")){
+                                    grid[2][0].drawO();
                                 }
                                 else
                                     grid[2][1].drawO();
